@@ -1,7 +1,15 @@
 controllers:
     resource: ../../src/Controller/
+    exclude: ../../src/Controller/Account
     type: annotation
 
 kernel:
     resource: ../../src/Kernel.php
+    type: annotation
+
+
+account:
+    name_prefix: app_account_
+    prefix: /accounts
+    resource: ../../src/Controller/Account
     type: annotation
