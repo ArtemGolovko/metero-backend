@@ -28,10 +28,10 @@ league_oauth2_server:
     auth_code_ttl:        PT10M
 
     # Whether to enable the client credentials grant
-    enable_client_credentials_grant: true
+    enable_client_credentials_grant: false
 
     # Whether to enable the password grant
-    enable_password_grant: true
+    enable_password_grant: false
 
     # Whether to enable the refresh token grant
     enable_refresh_token_grant: true

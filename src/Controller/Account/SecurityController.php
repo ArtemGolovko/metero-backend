@@ -3,8 +3,14 @@
 namespace App\Controller\Account;
 
 use App\Entity\User;
+use App\EventListener\AuthorizationRequestResolveEventListener;
+use App\Form\ConsentType;
 use Doctrine\ORM\EntityManagerInterface;
+use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
+use League\Bundle\OAuth2ServerBundle\Model\Client;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,5 +60,39 @@ class SecurityController extends AbstractController
         $em->flush();
 
         return new Response('OK');
+    }
+
+    /**
+     * @Route("/consent", name="consent")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function consent(Request $request, ClientManagerInterface $clientManager)
+    {
+        $session = $request->getSession();
+        $authorizationQuery = $session->get(AuthorizationRequestResolveEventListener::SESSION_AUTHORIZATION_QUERY);
+
+        $form = $this->createForm(ConsentType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            switch (true) {
+                case $form->get('accept')->isClicked():
+                    $session->set(AuthorizationRequestResolveEventListener::SESSION_AUTHORIZATION_RESULT, true);
+                    break;
+                case $form->get('refuse')->isClicked():
+                    $session->set(AuthorizationRequestResolveEventListener::SESSION_AUTHORIZATION_RESULT, false);
+            }
+
+            return $this->redirectToRoute('oauth2_authorize', $authorizationQuery);
+        }
+
+
+
+        return $this->render('security/consent.html.twig', [
+            'form' => $form->createView(),
+            'client' => $clientManager->find($authorizationQuery['client_id']),
+            'scope' => $authorizationQuery['scope']
+        ]);
     }
 }

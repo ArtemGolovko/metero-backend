@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    Client {{ client.name }}({{ client.identifier }})<br>
+    wants to access your {{ scope }}
+
+    {{ form_start(form) }}
+        {{ form_row(form.refuse) }}
+        {{ form_row(form.accept) }}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block title %}
+    Consent
+{% endblock %}
+
