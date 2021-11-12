@@ -1,0 +1,53 @@
+api_platform:
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    patch_formats:
+        json: ['application/merge-patch+json']
+    swagger:
+        versions: [3]
+    oauth:
+        # To enable or disable OAuth.
+        enabled: true
+
+        # The OAuth client ID.
+        clientId: ''
+
+        # The OAuth client secret.
+        clientSecret: ''
+
+        # The OAuth type.
+        type: 'oauth2'
+
+        # The OAuth flow grant type.
+        flow: 'authorizationCode'
+
+        # The OAuth token URL.
+        tokenUrl: '/accounts/token'
+
+        # The OAuth authentication URL.
+        authorizationUrl: '/accounts/authorize'
+
+        # The OAuth scopes.
+        scopes:
+            api: api
+    graphql:
+        # Enabled by default with installed webonyx/graphql-php.
+        enabled: true
+
+        # The default IDE (graphiql or graphql-playground) used when going to the GraphQL endpoint. False to disable.
+        default_ide: 'graphql_playground'
+
+        graphiql:
+            # Enabled by default with installed webonyx/graphql-php and Twig.
+            enabled: false
+
+        graphql_playground:
+            # Enabled by default with installed webonyx/graphql-php and Twig.
+            enabled: true
+
+        # The nesting separator used in the filter names.
+        nesting_separator: _
+
+        collection:
+            pagination:
+                enabled: true

@@ -3,10 +3,10 @@ league_oauth2_server:
 
     # Full path to the private key file.
     # How to generate a private key: https://oauth2.thephpleague.com/installation/#generating-public-and-private-keys
-    private_key: '%kernel.project_dir%/config/oauth/private.key'          # Required, Example: /var/oauth/private.key
+    private_key: '%private_key_path%'          # Required, Example: /var/oauth/private.key
 
     # Passphrase of the private key, if any
-    private_key_passphrase: '%env(PRIVATE_KEY_PASSPHRASE)%'
+    private_key_passphrase: '%private_key_passphrase%'
 
     # The plain string or the ascii safe string used to create a Defuse\Crypto\Key to be used as an encryption key.
     # How to generate an encryption key: https://oauth2.thephpleague.com/installation/#string-password
@@ -42,11 +42,13 @@ league_oauth2_server:
     # Whether to require code challenge for public clients for the auth code grant
     require_code_challenge_for_public_clients: true
 
+    enable_implicit_grant: false
+
   resource_server:      # Required
 
     # Full path to the public key file
     # How to generate a public key: https://oauth2.thephpleague.com/installation/#generating-public-and-private-keys
-    public_key: '%kernel.project_dir%/config/oauth/public.key' # Required, Example: /var/oauth/public.key
+    public_key: '%public_key_path%' # Required, Example: /var/oauth/public.key
 
   scopes:
     # Scopes that you wish to utilize in your application.
