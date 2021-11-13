@@ -7,6 +7,8 @@ parameters:
     private_key_path: '%kernel.project_dir%/config/oauth/private.key'
     public_key_path: '%kernel.project_dir%/config/oauth/public.key'
     private_key_passphrase: '%env(PRIVATE_KEY_PASSPHRASE)%'
+    oauth2_prefix: 'OAUTH2_'
+    oauth2_role_prefix: 'ROLE_OAUTH2_'
 
 services:
     # default configuration for services in *this* file

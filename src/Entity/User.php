@@ -15,14 +15,19 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
- *     security="is_granted('IS_AUTHENTICATED_REMEMBERED')",
+ *     security="is_granted('OAUTH2_API')",
  *     collectionOperations={"get"},
- *     itemOperations={"get", "patch"},
+ *     itemOperations={
+ *          "get",
+ *          "patch"={
+ *              "security"="is_granted('EDIT', object)",
+ *          },
+ *     },
  *     normalizationContext={"groups": "user:read"},
  *     denormalizationContext={"groups": "user:write"},
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ApiFilter(SearchFilter::class, properties={"username": "partial"})
+ * @ApiFilter(SearchFilter::class, properties={"username": "partial", "name": "partial", "email": "partial"})
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -61,6 +66,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToMany(targetEntity=Post::class, mappedBy="likes")
      */
     private $likedPosts;
+
+    /**
+     * @ORM\Column(type="string", length=225, unique=true)
+     * @Groups("user:read")
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"user:read", "user:write"})
+     */
+    private $name;
 
     public function __construct()
     {
@@ -205,6 +222,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->likedPosts->removeElement($likedPost)) {
             $likedPost->removeLike($this);
         }
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

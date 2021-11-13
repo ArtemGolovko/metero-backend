@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,15 +24,17 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
     public const LOGIN_ROUTE = 'app_account_login';
 
     private UrlGeneratorInterface $urlGenerator;
+    private UserRepository $userRepository;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(UrlGeneratorInterface $urlGenerator, UserRepository $userRepository)
     {
         $this->urlGenerator = $urlGenerator;
+        $this->userRepository = $userRepository;
     }
 
     public function authenticate(Request $request): PassportInterface
     {
-        $username = $request->request->get('username', '');
+        $username = $this->getUsername($request);
 
         $request->getSession()->set(Security::LAST_USERNAME, $username);
 
@@ -58,5 +61,14 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+    }
+
+    protected function getUsername(Request $request): string
+    {
+        /** @var string $username */
+        $username = $request->request->get('username', '');
+        $username = $this->userRepository->getUsername($username);
+
+        return $username ?? '';
     }
 }

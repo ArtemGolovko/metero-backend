@@ -2,14 +2,16 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Post;
+use App\Entity\User;
+use League\Bundle\OAuth2ServerBundle\Security\Authentication\Token\OAuth2Token;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class PostEditVoter extends Voter
+class UserEditVoter extends Voter
 {
+
 
     private Security $security;
 
@@ -20,12 +22,12 @@ class PostEditVoter extends Voter
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $attribute === 'EDIT'
-            && $subject instanceof Post;
+        return $attribute === 'EDIT' && $subject instanceof User;
     }
 
     /**
-     * @param Post $subject
+     * @param User $subject
+     * @param OAuth2Token $token
      */
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
@@ -39,6 +41,6 @@ class PostEditVoter extends Voter
             return false;
         }
 
-        return $user === $subject->getAuthor();
+        return $user === $subject;
     }
 }

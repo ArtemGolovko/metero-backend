@@ -10,10 +10,10 @@ api_platform:
         enabled: true
 
         # The OAuth client ID.
-        clientId: ''
+        clientId: 'documentation_client'
 
         # The OAuth client secret.
-        clientSecret: ''
+        clientSecret: 'documentation_client_secret'
 
         # The OAuth type.
         type: 'oauth2'

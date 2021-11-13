@@ -17,7 +17,7 @@ use App\Dto\PostInput;
  * @ApiResource(
  *     input=PostInput::class,
  *     output=PostOutput::class,
- *     security="is_granted('IS_AUTHENTICATED_REMEMBERED')",
+ *     security="is_granted('OAUTH2_API')",
  *     normalizationContext={"groups": "post:read"},
  *     denormalizationContext={"groups": "post:write"},
  *     itemOperations={
