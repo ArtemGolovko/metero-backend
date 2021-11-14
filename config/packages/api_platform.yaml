@@ -29,7 +29,12 @@ api_platform:
 
         # The OAuth scopes.
         scopes:
-            api: api
+            USER_READ: USER_READ
+            USER_WRITE: USER_WRITE
+            POST_READ: POST_READ
+            POST_CREATE: POST_CREATE
+            POST_WRITE: POST_WRITE
+            POST_DELETE: POST_DELETE
     graphql:
         # Enabled by default with installed webonyx/graphql-php.
         enabled: true

@@ -15,16 +15,21 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
- *     security="is_granted('OAUTH2_API')",
- *     collectionOperations={"get"},
- *     itemOperations={
- *          "get",
- *          "patch"={
- *              "security"="is_granted('EDIT', object)",
+ *      collectionOperations={
+ *          "get"={
+ *              "security"="is_granted('OAUTH2_USER_READ')",
+ *          }
+ *      },
+ *      itemOperations={
+ *          "get"={
+ *              "security"="is_granted('OAUTH2_USER_READ')",
  *          },
- *     },
- *     normalizationContext={"groups": "user:read"},
- *     denormalizationContext={"groups": "user:write"},
+ *          "patch"={
+ *              "security"="is_granted('UPDATE', object)",
+ *          },
+ *      },
+ *      normalizationContext={"groups": "user:read"},
+ *      denormalizationContext={"groups": "user:write"},
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiFilter(SearchFilter::class, properties={"username": "partial", "name": "partial", "email": "partial"})
@@ -64,6 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity=Post::class, mappedBy="likes")
+     * @Groups({"user:read", "user:write"})
      */
     private $likedPosts;
 

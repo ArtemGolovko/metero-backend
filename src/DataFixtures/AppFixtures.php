@@ -38,9 +38,18 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }
 
+        $fullScope = [
+            new Scope('USER_READ'),
+            new Scope('USER_WRITE'),
+            new Scope('POST_READ'),
+            new Scope('POST_CREATE'),
+            new Scope('POST_WRITE'),
+            new Scope('POST_DELETE'),
+        ];
+
         $client = new Client('Documentation Client', 'documentation_client', 'documentation_client_secret');
         $client
-            ->setScopes(new Scope('api'))
+            ->setScopes(...$fullScope)
             ->setActive(true)
             ->setGrants(new Grant(OAuth2Grants::AUTHORIZATION_CODE), new Grant(OAuth2Grants::REFRESH_TOKEN))
             ->setRedirectUris(new RedirectUri('https://127.0.0.1:8000/bundles/apiplatform/swagger-ui/oauth2-redirect.html'))
@@ -51,7 +60,7 @@ class AppFixtures extends Fixture
 
         $testClient = new Client('Test Client', 'test', '123');
         $testClient
-            ->setScopes(new Scope('api'))
+            ->setScopes(...$fullScope)
             ->setActive(true)
             ->setGrants(new Grant(OAuth2Grants::AUTHORIZATION_CODE), new Grant(OAuth2Grants::REFRESH_TOKEN))
             ->setRedirectUris(new RedirectUri('https://oauth.pstmn.io/v1/browser-callback'))

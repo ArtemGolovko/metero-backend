@@ -3,7 +3,12 @@
 {% block body %}
 
     Client {{ client.name }}({{ client.identifier }})<br>
-    wants to access your {{ scope }}
+    wants to access
+    <ul>
+    {% for scope in scopes %}
+        <li>{{ scope }}</li>
+    {%  endfor %}
+    </ul>
 
     {{ form_start(form) }}
         {{ form_row(form.refuse) }}

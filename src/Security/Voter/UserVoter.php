@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserEditVoter extends Voter
+class UserVoter extends Voter
 {
 
 
@@ -22,7 +22,7 @@ class UserEditVoter extends Voter
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $attribute === 'EDIT' && $subject instanceof User;
+        return $attribute === 'UPDATE' && $subject instanceof User;
     }
 
     /**
@@ -37,7 +37,7 @@ class UserEditVoter extends Voter
             return false;
         }
 
-        if (!$this->security->isGranted('OAUTH2_API')) {
+        if (!$this->security->isGranted('OAUTH2_USER_WRITE')) {
             return false;
         }
 

@@ -37,6 +37,9 @@ class TokenRequestResolveEventListener implements EventSubscriberInterface
     {
         $request = $this->requestStack->getCurrentRequest();
         $response = $event->getResponse();
+        if ($response->getStatusCode() !== 200) {
+            return;
+        }
 
 //        $response->headers->add([
 //            'Access-Control-Allow-Origin' => 'http://10.0.2.15:3000'
@@ -64,6 +67,8 @@ class TokenRequestResolveEventListener implements EventSubscriberInterface
             ->relatedTo($this->iriConverter->getIriFromItem($user))
             ->withClaim('id', $user->getId())
             ->withClaim('username', $user->getUsername())
+            ->withClaim('name', $user->getName())
+            ->withClaim('email', $user->getEmail())
             ->getToken($configuration->signer(), $configuration->signingKey());
 
         $json['id_token'] = $idToken->toString();

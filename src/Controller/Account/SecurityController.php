@@ -46,20 +46,9 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="register")
      */
-    public function register(UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em)
+    public function register()
     {
-        $user = new User();
-        $user
-            ->setUsername('user')
-            ->setPassword($passwordHasher->hashPassword(
-                $user,
-                '123'
-            ));
-
-        $em->persist($user);
-        $em->flush();
-
-        return new Response('OK');
+        return new Response(null, 501);
     }
 
     /**
@@ -92,7 +81,7 @@ class SecurityController extends AbstractController
         return $this->render('security/consent.html.twig', [
             'form' => $form->createView(),
             'client' => $clientManager->find($authorizationQuery['client_id']),
-            'scope' => $authorizationQuery['scope']
+            'scopes' => explode(' ', $authorizationQuery['scope'])
         ]);
     }
 }

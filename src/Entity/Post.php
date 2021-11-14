@@ -17,19 +17,28 @@ use App\Dto\PostInput;
  * @ApiResource(
  *     input=PostInput::class,
  *     output=PostOutput::class,
- *     security="is_granted('OAUTH2_API')",
  *     normalizationContext={"groups": "post:read"},
  *     denormalizationContext={"groups": "post:write"},
+ *     collectionOperations={
+ *         "get"={
+ *              "security"="is_granted('OAUTH2_POST_READ')",
+ *         },
+ *         "post"={
+ *              "security"="is_granted('OAUTH2_POST_CREATE')",
+ *         }
+ *     },
  *     itemOperations={
- *          "get",
+ *          "get"={
+ *              "security"="is_granted('OAUTH2_POST_READ')",
+ *          },
  *          "put"={
- *              "security"="is_granted('EDIT', object)",
+ *              "security"="is_granted('UPDATE', object)",
  *          },
  *          "delete"={
- *              "security"="is_granted('EDIT', object)",
+ *              "security"="is_granted('UPDATE', object)",
  *          },
  *          "patch"={
- *              "security"="is_granted('EDIT', object)",
+ *              "security"="is_granted('DELETE', object)",
  *          },
  *     }
  * )

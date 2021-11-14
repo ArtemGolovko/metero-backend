@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class PostEditVoter extends Voter
+class PostVoter extends Voter
 {
 
     private Security $security;
@@ -20,7 +20,7 @@ class PostEditVoter extends Voter
 
     protected function supports(string $attribute, $subject): bool
     {
-        return $attribute === 'EDIT'
+        return in_array($attribute, ['UPDATE', 'DELETE'])
             && $subject instanceof Post;
     }
 
@@ -35,10 +35,14 @@ class PostEditVoter extends Voter
             return false;
         }
 
-        if (!$this->security->isGranted('OAUTH2_API')) {
-            return false;
+        switch ($attribute) {
+            case 'UPDATE':
+                return $this->security->isGranted('OAUTH2_POST_WRITE')
+                    && $user === $subject->getAuthor();
+            case 'DELETE':
+                return $this->security->isGranted('OAUTH2_POST_DELETE')
+                    && $user === $subject->getAuthor();
         }
-
-        return $user === $subject->getAuthor();
+        return false;
     }
 }
