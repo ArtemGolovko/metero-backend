@@ -35,6 +35,9 @@ class PostInputDataTransformerInitializer implements DataTransformerInitializerI
         if (!$post->getAuthor()) {
             $post->setAuthor($this->security->getUser());
         }
+        if (!$post->getCreatedAt()) {
+            $post->setCreatedAt(new \DateTimeImmutable());
+        }
 
         return $post;
     }

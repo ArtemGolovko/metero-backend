@@ -10,6 +10,7 @@ use League\Bundle\OAuth2ServerBundle\Model\Grant;
 use League\Bundle\OAuth2ServerBundle\Model\RedirectUri;
 use League\Bundle\OAuth2ServerBundle\Model\Scope;
 use League\Bundle\OAuth2ServerBundle\OAuth2Grants;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -17,11 +18,16 @@ class AppFixtures extends Fixture
 
     private UserPasswordHasherInterface $passwordHasher;
     private UserDataProvider $dataProvider;
+    private ParameterBagInterface $parameterBag;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher, UserDataProvider $dataProvider)
-    {
+    public function __construct(
+        UserPasswordHasherInterface $passwordHasher,
+        UserDataProvider $dataProvider,
+        ParameterBagInterface $parameterBag
+    ) {
         $this->passwordHasher = $passwordHasher;
         $this->dataProvider = $dataProvider;
+        $this->parameterBag = $parameterBag;
     }
 
     public function load(ObjectManager $manager): void
@@ -52,7 +58,10 @@ class AppFixtures extends Fixture
             ->setScopes(...$fullScope)
             ->setActive(true)
             ->setGrants(new Grant(OAuth2Grants::AUTHORIZATION_CODE), new Grant(OAuth2Grants::REFRESH_TOKEN))
-            ->setRedirectUris(new RedirectUri('https://127.0.0.1:8000/bundles/apiplatform/swagger-ui/oauth2-redirect.html'))
+            ->setRedirectUris(
+                new RedirectUri('https://127.0.0.1:8000/bundles/apiplatform/swagger-ui/oauth2-redirect.html'),
+                new RedirectUri('https://api.' . $this->parameterBag->get('domain') . '/bundles/apiplatform/swagger-ui/oauth2-redirect.html')
+            )
             ->setAllowPlainTextPkce(false)
         ;
 

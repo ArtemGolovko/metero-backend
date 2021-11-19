@@ -5,6 +5,7 @@ namespace App\DataTransformer;
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use App\Dto\PostOutput;
 use App\Entity\Post;
+use Carbon\Carbon;
 use Symfony\Component\Security\Core\Security;
 
 class PostOutputDataTransformer implements DataTransformerInterface
@@ -27,6 +28,8 @@ class PostOutputDataTransformer implements DataTransformerInterface
         $postOutput->author = $object->getAuthor();
         $postOutput->likes = $object->getLikes()->count();
         $postOutput->isLiked = $object->getLikes()->contains($this->security->getUser());
+        $postOutput->createdAt = $object->getCreatedAt();
+        $postOutput->createdAtDiff = Carbon::make($object->getCreatedAt())->locale('ru')->diffForHumans();
         return $postOutput;
     }
 

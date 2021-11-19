@@ -15,6 +15,7 @@
         "doctrine/orm": "^2.10",
         "league/oauth2-server-bundle": "^0.1.2",
         "nelmio/cors-bundle": "^2.1",
+        "nesbot/carbon": "^2.54",
         "phpdocumentor/reflection-docblock": "^5.3",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "5.3.*",

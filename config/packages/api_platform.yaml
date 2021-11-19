@@ -1,4 +1,6 @@
 api_platform:
+    version: 0.1.0
+    show_webby: false
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:
@@ -22,10 +24,10 @@ api_platform:
         flow: 'authorizationCode'
 
         # The OAuth token URL.
-        tokenUrl: '/accounts/token'
+        tokenUrl: 'https://127.0.0.1:8000/accounts/token'
 
         # The OAuth authentication URL.
-        authorizationUrl: '/accounts/authorize'
+        authorizationUrl: 'https://127.0.0.1:8000/accounts/authorize'
 
         # The OAuth scopes.
         scopes:
@@ -56,3 +58,11 @@ api_platform:
         collection:
             pagination:
                 enabled: true
+
+when@prod:
+    api_platform:
+        oauth:
+            tokenUrl: 'http://accounts.%domain%/token'
+
+                # The OAuth authentication URL.
+            authorizationUrl: 'http://accounts.%domain%/authorize'

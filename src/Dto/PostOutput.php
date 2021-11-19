@@ -31,4 +31,14 @@ class PostOutput
      * @Groups("post:read")
      */
     public bool $isLiked;
+
+    /**
+     * @Groups("post:read")
+     */
+    public \DateTimeImmutable $createdAt;
+
+    /**
+     * @Groups("post:read")
+     */
+    public string $createdAtDiff;
 }

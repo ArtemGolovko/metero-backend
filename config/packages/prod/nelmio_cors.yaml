@@ -7,16 +7,19 @@ nelmio_cors:
         expose_headers: ['Link']
         max_age: 3600
     paths:
-        '^/api':
+        '^/':
             origin_regex: false
             allow_origin:  ['*']
             allow_headers: ['*']
             allow_methods: ['*']
             max_age: 86400
-        '^/accounts/token':
+            hosts: ['^api\.']
+        '^/token':
             origin_regex: false
             allow_origin: ['*']
             allow_methods: ['POST']
-        '^/accounts':
+            hosts: ['^accounts\.']
+        '^\/':
             origin_regex: false
             allow_origin: []
+            hosts: ['^accounts\.']

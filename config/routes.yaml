@@ -1,3 +1,9 @@
 oauth2:
   prefix: /accounts
   resource: '@LeagueOAuth2ServerBundle/Resources/config/routes.php'
+
+when@prod:
+  oauth2:
+    host: 'accounts.%domain%'
+    resource: '@LeagueOAuth2ServerBundle/Resources/config/routes.php'
+    prefix: /

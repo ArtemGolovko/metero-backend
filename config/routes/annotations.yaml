@@ -10,6 +10,15 @@ kernel:
 
 account:
     name_prefix: app_account_
-    prefix: /accounts
     resource: ../../src/Controller/Account
     type: annotation
+    prefix: /accounts
+
+
+when@prod:
+    account:
+        name_prefix: app_account_
+        resource: ../../src/Controller/Account
+        type: annotation
+        host: 'accounts.%domain%'
+        prefix: /
