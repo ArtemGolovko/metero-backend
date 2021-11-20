@@ -76,12 +76,25 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('oauth2_authorize', $authorizationQuery);
         }
 
+        $scopesDescriptions = [
+            'POST_READ' => 'информацию о ваших постах',
+            'POST_WRITE' => 'возможность изменять ваши посты',
+            'POST_CREATE' => 'возможность созадвать посты',
+            'POST_DELETE' => 'возможность удалять ваши посты',
+            'USER_READ' => 'информацию о вашем профиле',
+            'USER_WRITE' => 'возможность изменять ваш профиль',
+        ];
 
+        $scopes = '';
+        foreach (explode(' ', $authorizationQuery['scope']) as $scope) {
+            $scopes .= $scopesDescriptions[$scope] . ', ';
+        }
+        $scopes = substr($scopes, 0, strlen($scopes) - 2);
 
         return $this->render('security/consent.html.twig', [
             'form' => $form->createView(),
             'client' => $clientManager->find($authorizationQuery['client_id']),
-            'scopes' => explode(' ', $authorizationQuery['scope'])
+            'scopes' => $scopes,
         ]);
     }
 }

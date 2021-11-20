@@ -1,22 +1,56 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Metero{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/jquery.js') }}"></script>
+    <script src="{{ asset('assets/jqueryScrollTo.js') }}.js"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/login.css') }}" />
+{% endblock %}
+
+{#{% block body %}#}
+
+{#    Client {{ client.name }}({{ client.identifier }})<br>#}
+{#    wants to access#}
+{#    <ul>#}
+{#    {% for scope in scopes %}#}
+{#        <li>{{ scope }}</li>#}
+{#    {%  endfor %}#}
+{#    </ul>#}
+
+{#    {{ form_start(form) }}#}
+{#        {{ form_row(form.refuse) }}#}
+{#        {{ form_row(form.accept) }}#}
+{#    {{ form_end(form) }}#}
+{#{% endblock %}#}
+
 {% block body %}
-
-    Client {{ client.name }}({{ client.identifier }})<br>
-    wants to access
-    <ul>
-    {% for scope in scopes %}
-        <li>{{ scope }}</li>
-    {%  endfor %}
-    </ul>
-
-    {{ form_start(form) }}
-        {{ form_row(form.refuse) }}
-        {{ form_row(form.accept) }}
-    {{ form_end(form) }}
+    <div class="wrapper oauth">
+        <div class="logo">
+            <a href="/"
+            ><span class="blue">m</span><span class="e">e</span
+                ><span class="t">t</span><span class="e2">e</span
+                ><span class="r">r</span><span class="o">o</span></a
+            >
+        </div>
+        {{ form_start(form, { attr: { class: 'block access' } }) }}
+            <img src="{{ asset('assets/user.png') }}" alt="" />
+            <span class="title">Разрешить доступ к вашему аккаунту?</span>
+            <p class="appName">{{ client.name }} получит:</p>
+            <p class="privacy">
+                {{ scopes }}
+            </p>
+            {{ form_widget(form.refuse, { attr: { class: 'button refuse' }, label: 'Отказать в доступе' }) }}
+            <br>
+            {{ form_widget(form.accept, { attr: { class: 'button' }, label: 'Продолжить как ' ~ app.user.name }) }}
+        {{ form_end(form) }}
+    </div>
+    <footer>
+        <span>©2021 Артем Головко и Даниэль Гершенбейн</span>
+        <a>Политика конфиденциальности</a>
+        <a>Правила</a>
+    </footer>
 {% endblock %}
-
-{% block title %}
-    Consent
-{% endblock %}
-

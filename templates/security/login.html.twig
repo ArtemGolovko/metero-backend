@@ -1,42 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Metero{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/jquery.js') }}"></script>
+    <script src="{{ asset('assets/jqueryScrollTo.js') }}.js"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/login.css') }}" />
+{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+    <div class="wrapper">
+        <div class="flexLeft">
+            <img class="phone" src="{{ asset('assets/phone.jpg') }}" alt="" />
+            <span>Metero доступен на любом устройстве</span>
+            <p>
+                Вы можете установить приложение на свое устройствои и даже
+                пк, чтобы всегда получить быстрый доступ
+            </p>
         </div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputUsername">Username</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
+        <div class="flexRight">
+            <div class="logo">
+                <a href="/"
+                ><span class="blue">m</span><span class="e">e</span
+                    ><span class="t">t</span><span class="e2">e</span
+                    ><span class="r">r</span><span class="o">o</span></a
+                >
+            </div>
+            <form method="post" class="login block">
+                <input
+                        class="inputField"
+                        type="text"
+                        placeholder="Имя пользователя или эл. адрес"
+                        name="username"
+                        value="{{ last_username }}"
+                />
+                <input
+                        class="inputField"
+                        type="password"
+                        placeholder="Пароль"
+                        name="password"
+                />
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+                <button class="button" type="submit">Войти</button>
+            </form>
+            {% if error %}
+                <div class="block error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
         </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+    </div>
+    <footer>
+        <span>©2021 Артем Головко и Даниэль Гершенбейн</span>
+        <a>Политика конфиденциальности</a>
+        <a>Правила</a>
+    </footer>
 {% endblock %}
