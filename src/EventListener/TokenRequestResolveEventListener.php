@@ -10,6 +10,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\UnencryptedToken;
 use League\Bundle\OAuth2ServerBundle\Event\TokenRequestResolveEvent;
 use League\Bundle\OAuth2ServerBundle\OAuth2Events;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -20,17 +21,20 @@ class TokenRequestResolveEventListener implements EventSubscriberInterface
     private RequestStack $requestStack;
     private UserRepository $userRepository;
     private IriConverterInterface $iriConverter;
+    private LoggerInterface $logger;
 
     public function __construct(
         ParameterBagInterface $parameterBag,
         RequestStack $requestStack,
         UserRepository $userRepository,
-        IriConverterInterface $iriConverter
+        IriConverterInterface $iriConverter,
+        LoggerInterface $logger
     ) {
         $this->parameterBag = $parameterBag;
         $this->requestStack = $requestStack;
         $this->userRepository = $userRepository;
         $this->iriConverter = $iriConverter;
+        $this->logger = $logger;
     }
 
     public function onTokenRequestResolve(TokenRequestResolveEvent $event)
@@ -38,6 +42,9 @@ class TokenRequestResolveEventListener implements EventSubscriberInterface
         $request = $this->requestStack->getCurrentRequest();
         $response = $event->getResponse();
         if ($response->getStatusCode() !== 200) {
+            $this->logger->error('Failed to get access token', [
+                'response' => $response
+            ]);
             return;
         }
 

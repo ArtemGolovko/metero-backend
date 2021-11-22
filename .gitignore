@@ -13,3 +13,5 @@
 /php.ini
 /composer.phar
 /error_log
+/composer.lock
+/symfony.lock
