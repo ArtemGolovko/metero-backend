@@ -39,7 +39,7 @@ api_platform:
             POST_DELETE: POST_DELETE
     graphql:
         # Enabled by default with installed webonyx/graphql-php.
-        enabled: true
+        enabled: false
 
         # The default IDE (graphiql or graphql-playground) used when going to the GraphQL endpoint. False to disable.
         default_ide: 'graphql_playground'
@@ -50,7 +50,7 @@ api_platform:
 
         graphql_playground:
             # Enabled by default with installed webonyx/graphql-php and Twig.
-            enabled: true
+            enabled: false
 
         # The nesting separator used in the filter names.
         nesting_separator: _
