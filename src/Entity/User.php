@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,14 +17,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 /**
  * @ApiResource(
  *      collectionOperations={
- *          "get"={
- *              "security"="is_granted('OAUTH2_USER_READ')",
- *          }
+ *          "get"={}
  *      },
  *      itemOperations={
- *          "get"={
- *              "security"="is_granted('OAUTH2_USER_READ')",
- *          },
+ *          "get"={},
  *          "patch"={
  *              "security"="is_granted('UPDATE', object)",
  *          },
@@ -41,12 +38,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("user:read")
+     * @ApiProperty(identifier=false)
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"user:read", "post:read"})
+     * @ApiProperty(identifier=true)
      */
     private $username;
 

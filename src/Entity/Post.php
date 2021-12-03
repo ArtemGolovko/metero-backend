@@ -20,17 +20,13 @@ use App\Dto\PostInput;
  *     normalizationContext={"groups": "post:read"},
  *     denormalizationContext={"groups": "post:write"},
  *     collectionOperations={
- *         "get"={
- *              "security"="is_granted('OAUTH2_POST_READ')",
- *         },
+ *         "get"={},
  *         "post"={
  *              "security"="is_granted('OAUTH2_POST_CREATE')",
  *         }
  *     },
  *     itemOperations={
- *          "get"={
- *              "security"="is_granted('OAUTH2_POST_READ')",
- *          },
+ *          "get"={},
  *          "put"={
  *              "security"="is_granted('UPDATE', object)",
  *          },

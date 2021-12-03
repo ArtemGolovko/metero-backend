@@ -45,9 +45,7 @@ class AppFixtures extends Fixture
         }
 
         $fullScope = [
-            new Scope('USER_READ'),
             new Scope('USER_WRITE'),
-            new Scope('POST_READ'),
             new Scope('POST_CREATE'),
             new Scope('POST_WRITE'),
             new Scope('POST_DELETE'),
@@ -60,7 +58,7 @@ class AppFixtures extends Fixture
             ->setGrants(new Grant(OAuth2Grants::AUTHORIZATION_CODE), new Grant(OAuth2Grants::REFRESH_TOKEN))
             ->setRedirectUris(
                 new RedirectUri('https://127.0.0.1:8000/bundles/apiplatform/swagger-ui/oauth2-redirect.html'),
-                new RedirectUri('http://api.' . $this->parameterBag->get('domain') . '/bundles/apiplatform/swagger-ui/oauth2-redirect.html')
+                new RedirectUri('https://api.' . $this->parameterBag->get('domain') . '/bundles/apiplatform/swagger-ui/oauth2-redirect.html')
             )
             ->setAllowPlainTextPkce(false)
         ;

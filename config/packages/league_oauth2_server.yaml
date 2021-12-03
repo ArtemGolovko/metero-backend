@@ -53,11 +53,11 @@ league_oauth2_server:
   scopes:
     # Scopes that you wish to utilize in your application.
     # This should be a simple array of strings.
-    available:               [ USER_READ, USER_WRITE, POST_READ, POST_CREATE, POST_WRITE, POST_DELETE ]
+    available:               [ USER_WRITE, POST_CREATE, POST_WRITE, POST_DELETE ]
 
     # Scopes that will be assigned when no scope given.
     # This should be a simple array of strings.
-    default:                 [ USER_READ, POST_READ ]
+    default:                 [ POST_CREATE ]
 
   # Configures different persistence methods that can be used by the bundle for saving client and token data.
   # Only one persistence method can be configured at a time.

@@ -31,9 +31,7 @@ api_platform:
 
         # The OAuth scopes.
         scopes:
-            USER_READ: USER_READ
             USER_WRITE: USER_WRITE
-            POST_READ: POST_READ
             POST_CREATE: POST_CREATE
             POST_WRITE: POST_WRITE
             POST_DELETE: POST_DELETE
@@ -62,7 +60,7 @@ api_platform:
 when@prod:
     api_platform:
         oauth:
-            tokenUrl: 'http://accounts.%domain%/token'
+            tokenUrl: 'https://accounts.%domain%/token'
 
                 # The OAuth authentication URL.
-            authorizationUrl: 'http://accounts.%domain%/authorize'
+            authorizationUrl: 'https://accounts.%domain%/authorize'
